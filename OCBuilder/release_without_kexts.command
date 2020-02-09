@@ -129,6 +129,7 @@ opencorepackage() {
   cp FwRuntimeServices.efi tmp/EFI/OC/Drivers/ || exit 1
   cp NvmExpressDxe.efi tmp/EFI/OC/Drivers/ || exit 1
   cp XhciDxe.efi tmp/EFI/OC/Drivers/ || exit 1
+  cp BootKicker.efi tmp/EFI/OC/Tools/ || exit 1
   cp CleanNvram.efi tmp/EFI/OC/Tools/ || exit 1
   cp VerifyMsrE2.efi tmp/EFI/OC/Tools/ || exit 1
   cp "${selfdir}/Docs/Configuration.pdf" tmp/Docs/ >/dev/null || exit 1
