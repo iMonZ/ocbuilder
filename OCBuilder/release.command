@@ -104,6 +104,7 @@ applesupportpackage() {
   rm -rf tmp >/dev/null || exit 1
   mkdir -p tmp/Drivers >/dev/null || exit 1
   mkdir -p tmp/Tools   || exit 1
+  cp AudioDxe.efi tmp/Drivers/          || exit 1
   cp ApfsDriverLoader.efi tmp/Drivers/  || exit 1
   cp VBoxHfs.efi tmp/Drivers/           || exit 1
   pushd tmp >/dev/null || exit 1
