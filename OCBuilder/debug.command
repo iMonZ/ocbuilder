@@ -138,6 +138,7 @@ opencorepackage() {
   cp BootKicker.efi tmp/EFI/OC/Tools/ || exit 1
   cp CleanNvram.efi tmp/EFI/OC/Tools/ || exit 1
   cp GopStop.efi tmp/EFI/OC/Tools/ || exit 1
+  cp HdaCodecDump.efi tmp/EFI/OC/Tools/ || exit 1
   cp VerifyMsrE2.efi tmp/EFI/OC/Tools/ || exit 1
   cp "${selfdir}/Docs/Configuration.pdf" tmp/Docs/ >/dev/null || exit 1
   cp "${selfdir}/Docs/Differences/Differences.pdf" tmp/Docs/ >/dev/null || exit 1
