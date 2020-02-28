@@ -305,11 +305,11 @@ if [ ! -d "${FINAL_DIR}" ]; then
   mkdir -p "${FINAL_DIR}"
   copyBuildProducts
 #  rm -rf "${BUILD_DIR}/"
-  open -a Safari https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/
+  open -a Safari https://khronokernel.github.io/Opencore-Vanilla-Desktop-Guide/
 else
   rm -rf "${FINAL_DIR}"/*
   copyBuildProducts
 #  rm -rf "${BUILD_DIR}/"
-  open -a Safari https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/
+  open -a Safari https://khronokernel.github.io/Opencore-Vanilla-Desktop-Guide/
 fi
 

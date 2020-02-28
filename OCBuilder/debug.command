@@ -209,14 +209,10 @@ copyBuildProducts() {
   cp -r "${BUILD_DIR}/AppleALC/build/Debug/AppleALC.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}"/VirtualSMC/build/Debug/*.kext "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/WhateverGreen/build/Debug/WhateverGreen.kext" "${FINAL_DIR}"/EFI/OC/Kexts
-  cp -r "${BUILD_DIR}/CPUFriend/build/Debug/CPUFriend.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AirportBrcmFixup/build/Debug/AirportBrcmFixup.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/MacProMemoryNotificationDisabler/build/Debug/MacProMemoryNotificationDisabler.kext" "${FINAL_DIR}"/EFI/OC/Kexts
-  cp -r "${BUILD_DIR}/ATH9KFixup/build/Debug/ATH9KFixup.kext" "${FINAL_DIR}"/EFI/OC/Kexts
-  cp -r "${BUILD_DIR}/RTCMemoryFixup/build/Debug/RTCMemoryFixup.kext" "${FINAL_DIR}"/EFI/OC/Kexts
-  cp -r "${BUILD_DIR}/IntelMausiEthernet/build/Debug/IntelMausiEthernet.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AtherosE2200Ethernet/build/Debug/AtherosE2200Ethernet.kext" "${FINAL_DIR}"/EFI/OC/Kexts
-  cp -r "${BUILD_DIR}/TSCAdjustReset/build/Debug/TSCAdjustReset.kext" "${FINAL_DIR}"/EFI/OC/Kexts
+  cp -r "${BUILD_DIR}/SMCAMDProcessor/build/Debug/SMCAMDProcessor.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/RTL8111_driver_for_OS_X/build/Debug/RealtekRTL8111.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/OpenCoreShell/Binaries/DEBUG/Shell_EA4BB293-2D7F-4456-A681-1F22F42CD0BC.efi" "${FINAL_DIR}"/EFI/OC/Tools/Shell.efi
   cd "${BUILD_DIR}"/AppleSupportPkg/Binaries/DEBUG
@@ -275,16 +271,6 @@ echo "VirtualSMC Debug Completed..."
 
 cd "${BUILD_DIR}"
 
-echo "Cloning CPUFriend repo..."
-git clone https://github.com/acidanthera/CPUFriend.git >/dev/null || exit 1
-cp -r "${BUILD_DIR}/Lilu/build/Debug/Lilu.kext" "${BUILD_DIR}/CPUFriend"
-cd "${BUILD_DIR}/CPUFriend"
-echo "Compiling the latest commited Debug version of CPUFriend..."
-builddebug
-echo "CPUFriend Debug Completed..."
-
-cd "${BUILD_DIR}"
-
 echo "Cloning AirportBrcmFixup repo..."
 git clone https://github.com/acidanthera/AirportBrcmFixup.git >/dev/null || exit 1
 cp -r "${BUILD_DIR}/Lilu/build/Debug/Lilu.kext" "${BUILD_DIR}/AirportBrcmFixup"
@@ -302,35 +288,6 @@ cd "${BUILD_DIR}/MacProMemoryNotificationDisabler"
 echo "Compiling the latest commited Debug version of MacProMemoryNotificationDisabler..."
 builddebug
 echo "MacProMemoryNotificationDisabler Debug Completed..."
-
-cd "${BUILD_DIR}"
-
-echo "Cloning ATH9KFixup repo..."
-git clone https://github.com/chunnann/ATH9KFixup.git >/dev/null || exit 1
-cp -r "${BUILD_DIR}/Lilu/build/Debug/Lilu.kext" "${BUILD_DIR}/ATH9KFixup"
-cd "${BUILD_DIR}/ATH9KFixup"
-echo "Compiling the latest commited Debug version of ATH9KFixup..."
-builddebug
-echo "ATH9KFixup Debug Completed..."
-
-cd "${BUILD_DIR}"
-
-echo "Cloning RTCMemoryFixup repo..."
-git clone https://github.com/acidanthera/RTCMemoryFixup.git >/dev/null || exit 1
-cp -r "${BUILD_DIR}/Lilu/build/Debug/Lilu.kext" "${BUILD_DIR}/RTCMemoryFixup"
-cd "${BUILD_DIR}/RTCMemoryFixup"
-echo "Compiling the latest commited Debug version of RTCMemoryFixup..."
-builddebug
-echo "RTCMemoryFixup Debug Completed..."
-
-cd "${BUILD_DIR}"
-
-echo "Cloning IntelMausiEthernet repo..."
-git clone https://github.com/Mieze/IntelMausiEthernet.git >/dev/null || exit 1
-cd "${BUILD_DIR}/IntelMausiEthernet"
-echo "Compiling the latest commited Debug version of IntelMausiEthernet..."
-builddebug
-echo "IntelMausiEthernet Debug Completed..."
 
 cd "${BUILD_DIR}"
 
@@ -352,12 +309,14 @@ echo "RealtekRTL8111 Debug Completed..."
 
 cd "${BUILD_DIR}"
 
-echo "Cloning TSCAdjustReset repo..."
-git clone https://github.com/interferenc/TSCAdjustReset.git >/dev/null || exit 1
-cd "${BUILD_DIR}/TSCAdjustReset"
-echo "Compiling the latest commited Debug version of TSCAdjustReset..."
+echo "Cloning SMCAMDProcessor repo..."
+git clone https://github.com/trulyspinach/SMCAMDProcessor.git >/dev/null || exit 1
+cp -r "${BUILD_DIR}/Lilu/build/Debug/Lilu.kext" "${BUILD_DIR}/SMCAMDProcessor"
+cp -r "${BUILD_DIR}/VirtualSMC/build/Debug/VirtualSMC.kext" "${BUILD_DIR}/SMCAMDProcessor"
+cd "${BUILD_DIR}/SMCAMDProcessor"
+echo "Compiling the latest commited Debug version of SMCAMDProcessor..."
 builddebug
-echo "TSCAdjustReset Debug Completed..."
+echo "SMCAMDProcessor Debug Completed..."
 
 cd "${BUILD_DIR}"
 
@@ -447,11 +406,11 @@ if [ ! -d "${FINAL_DIR}" ]; then
   mkdir -p "${FINAL_DIR}"
   copyBuildProducts
 #  rm -rf "${BUILD_DIR}/"
-  open -a Safari https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/
+  open -a Safari https://khronokernel.github.io/Opencore-Vanilla-Desktop-Guide/
 else
   rm -rf "${FINAL_DIR}"/*
   copyBuildProducts
 #  rm -rf "${BUILD_DIR}/"
-  open -a Safari https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/
+  open -a Safari https://khronokernel.github.io/Opencore-Vanilla-Desktop-Guide/
 fi
 
