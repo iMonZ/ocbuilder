@@ -185,6 +185,11 @@ opencoreclone() {
   git clone -q https://github.com/acidanthera/OpenCorePkg.git
 }
 
+ocbinarydataclone () {
+  echo "Cloning OcBinaryData Git repo..."
+  git clone -q https://github.com/acidanthera/OcBinaryData.git
+}
+
 copyBuildProducts() {
   echo "Copying compiled products into EFI Structure folder in ${FINAL_DIR}..."
   cp "${BUILD_DIR}"/OpenCorePkg/Binaries/DEBUG/*.zip "${FINAL_DIR}/"
@@ -197,6 +202,7 @@ copyBuildProducts() {
   rm -rf "${BUILD_DIR}"/AppleSupportPkg/Binaries/DEBUG/Tools
   unzip *.zip  >/dev/null || exit 1
   cp -r "${BUILD_DIR}"/AppleSupportPkg/Binaries/DEBUG/Drivers/*.efi "${FINAL_DIR}"/EFI/OC/Drivers
+  cp -r "${BUILD_DIR}"/OcBinaryData/Resources "${FINAL_DIR}"/EFI/OC/
   echo "All Done!..."
 }
 
@@ -308,6 +314,10 @@ echo "Compiling the latest commited Debug version of OpenCoreShellPkg..."
 build -a X64 -b DEBUG -t XCODE5 -p ShellPkg/ShellPkg.dsc >/dev/null || exit 1
 cd .. >/dev/null || exit 1
 ocshellpackage "Binaries/DEBUG" "DEBUG" "$HASH" >/dev/null || exit 1
+
+cd "${BUILD_DIR}"
+
+ocbinarydataclone
 
 if [ ! -d "${FINAL_DIR}" ]; then
   mkdir -p "${FINAL_DIR}"
