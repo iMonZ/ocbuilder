@@ -87,45 +87,35 @@ ocshellpackage() {
 }
 
 applesupportpackage() {
-  local ver=$(cat Include/AppleSupportPkgVersion.h | grep APPLE_SUPPORT_VERSION | cut -f4 -d' ' | cut -f2 -d'"' | grep -E '^[0-9.]+$')
-  if [ "$ver" = "" ]; then
-    echo "Invalid version $ver..."
-  fi
-
-  pushd "$1" >/dev/null || exit 1
-  rm -rf tmp >/dev/null || exit 1
-  mkdir -p tmp/Drivers >/dev/null || exit 1
+  pushd "$1" || exit 1
+  rm -rf tmp || exit 1
+  mkdir -p tmp/Drivers || exit 1
   mkdir -p tmp/Tools   || exit 1
   cp AudioDxe.efi tmp/Drivers/          || exit 1
   cp ApfsDriverLoader.efi tmp/Drivers/  || exit 1
   cp VBoxHfs.efi tmp/Drivers/           || exit 1
-  pushd tmp >/dev/null || exit 1
-  zip -qry -FS ../"AppleSupport-${ver}-${2}.zip" * >/dev/null || exit 1
-  popd >/dev/null || exit 1
-  rm -rf tmp >/dev/null || exit 1
-  popd >/dev/null || exit 1
+  pushd tmp || exit 1
+  zip -qry -FS ../"AppleSupport-${ver}-${2}.zip" * || exit 1
+  popd || exit 1
+  rm -rf tmp || exit 1
+  popd || exit 1
 }
 
 opencorepackage() {
-  local ver=$(cat Include/OpenCore.h | grep OPEN_CORE_VERSION | sed 's/.*"\(.*\)".*/\1/' | grep -E '^[0-9.]+$')
-  if [ "$ver" = "" ]; then
-    echo "Invalid version $ver..."
-  fi
-
   selfdir=$(pwd)
-  pushd "$1" >/dev/null || exit 1
-  rm -rf tmp >/dev/null || exit 1
-  mkdir -p tmp/EFI >/dev/null || exit 1
-  mkdir -p tmp/EFI/OC >/dev/null || exit 1
-  mkdir -p tmp/EFI/OC/ACPI >/dev/null || exit 1
-  mkdir -p tmp/EFI/OC/Drivers >/dev/null || exit 1
-  mkdir -p tmp/EFI/OC/Kexts >/dev/null || exit 1
-  mkdir -p tmp/EFI/OC/Tools >/dev/null || exit 1
-  mkdir -p tmp/EFI/BOOT >/dev/null || exit 1
-  mkdir -p tmp/Docs/AcpiSamples >/dev/null || exit 1
-  mkdir -p tmp/Utilities >/dev/null || exit 1
-  cp OpenCore.efi tmp/EFI/OC/ >/dev/null || exit 1
-  cp BOOTx64.efi tmp/EFI/BOOT/ >/dev/null || exit 1
+  pushd "$1" || exit 1
+  rm -rf tmp || exit 1
+  mkdir -p tmp/EFI || exit 1
+  mkdir -p tmp/EFI/OC || exit 1
+  mkdir -p tmp/EFI/OC/ACPI || exit 1
+  mkdir -p tmp/EFI/OC/Drivers || exit 1
+  mkdir -p tmp/EFI/OC/Kexts || exit 1
+  mkdir -p tmp/EFI/OC/Tools || exit 1
+  mkdir -p tmp/EFI/BOOT || exit 1
+  mkdir -p tmp/Docs/AcpiSamples || exit 1
+  mkdir -p tmp/Utilities || exit 1
+  cp OpenCore.efi tmp/EFI/OC/ || exit 1
+  cp BOOTx64.efi tmp/EFI/BOOT/ || exit 1
   cp AppleUsbKbDxe.efi tmp/EFI/OC/Drivers/ || exit 1
   cp FwRuntimeServices.efi tmp/EFI/OC/Drivers/ || exit 1
   cp HiiDatabase.efi tmp/EFI/OC/Drivers/ || exit 1
@@ -136,20 +126,20 @@ opencorepackage() {
   cp GopStop.efi tmp/EFI/OC/Tools/ || exit 1
   cp HdaCodecDump.efi tmp/EFI/OC/Tools/ || exit 1
   cp VerifyMsrE2.efi tmp/EFI/OC/Tools/ || exit 1
-  cp "${selfdir}/Docs/Configuration.pdf" tmp/Docs/ >/dev/null || exit 1
-  cp "${selfdir}/Docs/Differences/Differences.pdf" tmp/Docs/ >/dev/null || exit 1
-  cp "${selfdir}/Docs/Sample.plist" tmp/Docs/ >/dev/null || exit 1
-  cp "${selfdir}/Docs/SampleFull.plist" tmp/Docs/ >/dev/null || exit 1
-  cp "${selfdir}/Changelog.md" tmp/Docs/ >/dev/null || exit 1
-  cp -r "${selfdir}/Docs/AcpiSamples/" tmp/Docs/AcpiSamples/ >/dev/null || exit 1
-  cp -r "${selfdir}/UDK/OcSupportPkg/Utilities/BootInstall" tmp/Utilities/ >/dev/null || exit 1
-  cp -r "${selfdir}/UDK/OcSupportPkg/Utilities/CreateVault" tmp/Utilities/ >/dev/null || exit 1
-  cp -r "${selfdir}/UDK/OcSupportPkg/Utilities/LogoutHook" tmp/Utilities/ >/dev/null || exit 1
-  pushd tmp >/dev/null || exit 1
-  zip -qry -FS ../"OpenCore-${ver}-${2}.zip" * >/dev/null || exit 1
-  popd >/dev/null || exit 1
-  rm -rf tmp >/dev/null || exit 1
-  popd >/dev/null || exit 1
+  cp "${selfdir}/Docs/Configuration.pdf" tmp/Docs/ || exit 1
+  cp "${selfdir}/Docs/Differences/Differences.pdf" tmp/Docs/ || exit 1
+  cp "${selfdir}/Docs/Sample.plist" tmp/Docs/ || exit 1
+  cp "${selfdir}/Docs/SampleFull.plist" tmp/Docs/ || exit 1
+  cp "${selfdir}/Changelog.md" tmp/Docs/ || exit 1
+  cp -r "${selfdir}/Docs/AcpiSamples/" tmp/Docs/AcpiSamples/ || exit 1
+  cp -r "${selfdir}/Utilities/BootInstall" tmp/Utilities/ || exit 1
+  cp -r "${selfdir}/Utilities/CreateVault" tmp/Utilities/ || exit 1
+  cp -r "${selfdir}/Utilities/LogoutHook" tmp/Utilities/ || exit 1
+  pushd tmp || exit 1
+  zip -qry -FS ../"OpenCore-${ver}-${2}.zip" * || exit 1
+  popd || exit 1
+  rm -rf tmp || exit 1
+  popd || exit 1
 }
 
 ocshelludkclone() {
@@ -238,9 +228,27 @@ source edksetup.sh --reconfig >/dev/null
 sleep 1
 echo "Compiling the latest commited Debug version of OpenCorePkg..."
 build -a X64 -b DEBUG -t XCODE5 -p OpenCorePkg/OpenCorePkg.dsc >/dev/null || exit 1
-
 cd .. >/dev/null || exit 1
 opencorepackage "Binaries/DEBUG" "DEBUG" >/dev/null || exit 1
+
+if [ "$BUILD_UTILITIES" = "1" ]; then
+  UTILS=(
+    "AppleEfiSignTool"
+    "EfiResTool"
+    "readlabel"
+    "RsaTool"
+  )
+
+  cd Utilities || exit 1
+  for util in "${UTILS[@]}"; do
+    cd "$util" || exit 1
+    make || exit 1
+    cd - || exit 1
+  done
+fi
+
+cd "${BUILD_DIR}"/OpenCorePkg/Library/OcConfigurationLib || exit 1
+./CheckSchema.py OcConfigurationLib.c >/dev/null || exit 1
 
 cd "${BUILD_DIR}"
 
