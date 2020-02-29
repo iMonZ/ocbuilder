@@ -1,77 +1,74 @@
 #!/bin/bash
 
-dialogTitle="OCBuilder"
-# obtain the password from a dialog box
-authPass=$(/usr/bin/osascript <<EOT
-  tell application "System Events"
-    activate
-    repeat
-      display dialog "This application requires administrator privileges. Please enter your administrator account password below to continue:" ¬
-        default answer "" ¬
-        with title "$dialogTitle" ¬
-        with hidden answer ¬
-        buttons {"Quit", "Continue"} default button 2
-      if button returned of the result is "Quit" then
-        return 1
-        exit repeat
-      else if the button returned of the result is "Continue" then
-        set pswd to text returned of the result
-        set usr to short user name of (system info)
-        try
-          do shell script "echo test" user name usr password pswd with administrator privileges
-            return pswd
-            exit repeat
-        end try
-      end if
-    end repeat
-  end tell
-EOT
-)
-# Abort if the Quit button was pressed
-if [ "$authPass" == 1 ]
-then
-  /bin/echo "User aborted. Exiting..."
-  exit 0
-fi
-# function that replaces sudo command
-sudo () {
-    /bin/echo $authPass | /usr/bin/sudo -S "$@"
+prompt() {
+    dialogTitle="OCBuilder"
+    authPass=$(/usr/bin/osascript <<EOT
+        tell application "System Events"
+            activate
+            repeat
+                display dialog "This application requires administrator privileges. Please enter your administrator account password below to continue:" ¬
+                    default answer "" ¬
+                    with title "$dialogTitle" ¬
+                    with hidden answer ¬
+                    buttons {"Quit", "Continue"} default button 2
+                if button returned of the result is "Quit" then
+                    return 1
+                    exit repeat
+                else if the button returned of the result is "Continue" then
+                    set pswd to text returned of the result
+                    set usr to short user name of (system info)
+                    try
+                        do shell script "echo test" user name usr password pswd with administrator privileges
+                        return pswd
+                        exit repeat
+                    end try
+                end if
+            end repeat
+        end tell
+    EOT
+    )
+
+    if [ "$authPass" == 1 ]
+    then
+        /bin/echo "User aborted. Exiting..."
+        exit 0
+    fi
+
+    sudo () {
+        /bin/echo $authPass | /usr/bin/sudo -S "$@"
+    }
 }
 
 BUILD_DIR="${1}/OCBuilder_Clone"
 FINAL_DIR="${2}/Debug_Without_Kext_OCBuilder_Completed"
 
-if [ "$(nasm -v)" = "" ] || [ "$(nasm -v | grep Apple)" != "" ]; then
-  pushd /tmp >/dev/null
-  rm -rf nasm-mac64.zip
-  curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/nasm-mac64.zip" || exit 1
-  nasmzip=$(cat nasm-mac64.zip)
-  rm -rf nasm-*
-  curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/${nasmzip}" || exit 1
-  unzip -q "${nasmzip}" nasm*/nasm nasm*/ndisasm || exit 1
-  if [ -d /usr/local/bin ]; then
-    sudo mv nasm*/nasm /usr/local/bin/ || exit 1
-    sudo mv nasm*/ndisasm /usr/local/bin/ || exit 1
-    rm -rf "${nasmzip}" nasm-*
-    popd >/dev/null
-  else
-    sudo mkdir -p /usr/local/bin || exit 1
-    sudo mv nasm*/nasm /usr/local/bin/ || exit 1
-    sudo mv nasm*/ndisasm /usr/local/bin/ || exit 1
-    rm -rf "${nasmzip}" nasm-*
-    popd >/dev/null
-  fi
-fi
+installnasm () {
+    pushd /tmp >/dev/null
+    rm -rf nasm-mac64.zip
+    curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/nasm-mac64.zip" || exit 1
+    nasmzip=$(cat nasm-mac64.zip)
+    rm -rf nasm-*
+    curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/${nasmzip}" || exit 1
+    unzip -q "${nasmzip}" nasm*/nasm nasm*/ndisasm || exit 1
+    if [ -d /usr/local/bin ]; then
+        sudo mv nasm*/nasm /usr/local/bin/ || exit 1
+        sudo mv nasm*/ndisasm /usr/local/bin/ || exit 1
+        rm -rf "${nasmzip}" nasm-*
+    else
+        sudo mkdir -p /usr/local/bin || exit 1
+        sudo mv nasm*/nasm /usr/local/bin/ || exit 1
+        sudo mv nasm*/ndisasm /usr/local/bin/ || exit 1
+        rm -rf "${nasmzip}" nasm-*
+    fi
+}
 
-if [ "$(which mtoc.NEW)" == "" ] || [ "$(which mtoc)" == "" ]; then
-  pushd /tmp >/dev/null
-  rm -f mtoc mtoc-mac64.zip
-  curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/mtoc-mac64.zip" || exit 1
-  unzip -q mtoc-mac64.zip mtoc || exit 1
-  sudo cp mtoc /usr/local/bin/mtoc || exit 1
-  sudo mv mtoc /usr/local/bin/mtoc.NEW || exit 1
-  popd >/dev/null
-fi
+installmtoc () {
+    rm -f mtoc mtoc-mac64.zip
+    curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/mtoc-mac64.zip" || exit 1
+    unzip -q mtoc-mac64.zip mtoc || exit 1
+    sudo cp mtoc /usr/local/bin/mtoc || exit 1
+    sudo mv mtoc /usr/local/bin/mtoc.NEW || exit 1
+}
 
 ocshellpackage() {
   pushd "$1" >/dev/null || exit 1
@@ -211,6 +208,24 @@ if [ ! -d "${BUILD_DIR}" ]; then
 else
   rm -rf "${BUILD_DIR}/"
   mkdir -p "${BUILD_DIR}"
+fi
+
+cd "${BUILD_DIR}"
+
+if [ "$(nasm -v)" = "" ]; then
+    echo "NASM is missing!, installing..."
+    prompt
+    installnasm
+else
+    echo "NASM Already Installed..."
+fi
+
+if [ "$(which mtoc)" == "" ]; then
+    echo "MTOC is missing!, installing..."
+    prompt
+    installmtoc
+else
+    echo "MTOC Already Installed..."
 fi
 
 cd "${BUILD_DIR}"
