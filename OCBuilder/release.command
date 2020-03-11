@@ -78,19 +78,6 @@ builddebug() {
   xcodebuild -configuration Debug  >/dev/null || exit 1
 }
 
-ocshellpackage() {
-  pushd "$1" >/dev/null || exit 1
-  rm -rf tmp >/dev/null || exit 1
-  mkdir -p tmp/Tools >/dev/null || exit 1
-  cp Shell_EA4BB293-2D7F-4456-A681-1F22F42CD0BC.efi tmp/Tools/Shell.efi >/dev/null || exit 1
-  echo "$3" > tmp/UDK.hash >/dev/null || exit 1
-  pushd tmp >/dev/null || exit 1
-  zip -qry -FS ../"OpenCoreShell-${PKGVER}-${2}.zip" * >/dev/null || exit 1
-  popd >/dev/null || exit 1
-  rm -rf tmp >/dev/null || exit 1
-  popd >/dev/null || exit 1
-}
-
 applesupportpackage() {
   pushd "$1" || exit 1
   rm -rf tmp || exit 1
@@ -147,16 +134,6 @@ opencorepackage() {
   popd || exit 1
 }
 
-ocshelludkclone() {
-  echo "Cloning AUDK Repo into OpenCoreShell..."
-  git clone -q https://github.com/acidanthera/audk UDK -b master --depth=1
-}
-
-opencoreshellclone() {
-  echo "Cloning OpenCoreShell Git repo..."
-  git clone -q https://github.com/acidanthera/OpenCoreShell.git
-}
-
 applesupportpkgclone() {
   echo "Cloning AppleSupportPkg SupportPkgs into AUDK..."
   git clone -q https://github.com/acidanthera/EfiPkg EfiPkg -b master --depth=1
@@ -209,7 +186,6 @@ copyBuildProducts() {
   cp -r "${BUILD_DIR}/SMCAMDProcessor/build/Release/SMCAMDProcessor.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AtherosE2200Ethernet/build/Release/AtherosE2200Ethernet.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/RTL8111_driver_for_OS_X/build/Release/RealtekRTL8111.kext" "${FINAL_DIR}"/EFI/OC/Kexts
-  cp -r "${BUILD_DIR}/OpenCoreShell/Binaries/RELEASE/Shell_EA4BB293-2D7F-4456-A681-1F22F42CD0BC.efi" "${FINAL_DIR}"/EFI/OC/Tools/Shell.efi
   cd "${BUILD_DIR}"/AppleSupportPkg/Binaries/RELEASE
   rm -rf "${BUILD_DIR}"/AppleSupportPkg/Binaries/RELEASE/Drivers
   rm -rf "${BUILD_DIR}"/AppleSupportPkg/Binaries/RELEASE/Tools
@@ -411,38 +387,6 @@ build -a X64 -b RELEASE -t XCODE5 -p AppleSupportPkg/AppleSupportPkg.dsc >/dev/n
 
 cd .. >/dev/null || exit 1
 applesupportpackage "Binaries/RELEASE" "RELEASE" >/dev/null || exit 1
-
-cd "${BUILD_DIR}"
-
-opencoreshellclone
-unset WORKSPACE
-unset PACKAGES_PATH
-cd "${BUILD_DIR}/OpenCoreShell"
-mkdir Binaries >/dev/null || exit 1
-cd Binaries >/dev/null || exit 1
-ln -s ../UDK/Build/Shell/RELEASE_XCODE5/X64 RELEASE >/dev/null || exit 1
-cd .. >/dev/null || exit 1
-ocshelludkclone
-cd UDK
-HASH=$(git rev-parse origin/master)
-ln -s .. AppleSupportPkg >/dev/null || exit 1
-make -C BaseTools >/dev/null || exit 1
-sleep 1
-unset WORKSPACE
-unset EDK_TOOLS_PATH
-export NASM_PREFIX=/usr/local/bin/
-source edksetup.sh --reconfig >/dev/null
-sleep 1
-for i in ../Patches/* ; do
-    git apply "$i" --whitespace=fix >/dev/null || exit 1
-    git add * >/dev/null || exit 1
-    git commit -m "Applied patch $i" >/dev/null || exit 1
-done
-touch patches.ready
-echo "Compiling the latest commited Release version of OpenCoreShellPkg..."
-build -a X64 -b RELEASE -t XCODE5 -p ShellPkg/ShellPkg.dsc >/dev/null || exit 1
-cd .. >/dev/null || exit 1
-ocshellpackage "Binaries/RELEASE" "RELEASE" "$HASH" >/dev/null || exit 1
 
 cd "${BUILD_DIR}"
 
