@@ -341,7 +341,7 @@ if [ "$BUILD_UTILITIES" = "1" ]; then
   UTILS=(
     "AppleEfiSignTool"
     "EfiResTool"
-    "readlabel"
+    "disklabel"
     "RsaTool"
   )
 
