@@ -182,6 +182,8 @@ copyBuildProducts() {
     echo "All Done!..."
 }
 
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
 if [ ! -d "${BUILD_DIR}" ]; then
     mkdir -p "${BUILD_DIR}"
 else
