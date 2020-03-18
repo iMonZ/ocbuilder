@@ -187,6 +187,7 @@ copyBuildProducts() {
   cp -r "${BUILD_DIR}/AtherosE2200Ethernet/build/Debug/AtherosE2200Ethernet.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/SMCAMDProcessor/build/Debug/SMCAMDProcessor.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/RTL8111_driver_for_OS_X/build/Debug/RealtekRTL8111.kext" "${FINAL_DIR}"/EFI/OC/Kexts
+  cp -r "${BUILD_DIR}/NVMeFix/build/Debug/NVMeFix.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cd "${BUILD_DIR}"/AppleSupportPkg/Binaries/DEBUG
   rm -rf "${BUILD_DIR}"/AppleSupportPkg/Binaries/DEBUG/Drivers
   rm -rf "${BUILD_DIR}"/AppleSupportPkg/Binaries/DEBUG/Tools
@@ -293,6 +294,16 @@ cd "${BUILD_DIR}/SMCAMDProcessor"
 echo "Compiling the latest commited Debug version of SMCAMDProcessor..."
 builddebug
 echo "SMCAMDProcessor Debug Completed..."
+
+cd "${BUILD_DIR}"
+
+echo "Cloning NVMeFix repo..."
+git clone https://github.com/acidanthera/NVMeFix.git >/dev/null || exit 1
+cp -r "${BUILD_DIR}/Lilu/build/Debug/Lilu.kext" "${BUILD_DIR}/NVMeFix"
+cd "${BUILD_DIR}/NVMeFix"
+echo "Compiling the latest commited Debug version of NVMeFix..."
+builddebug
+echo "NVMeFix Debug Completed..."
 
 cd "${BUILD_DIR}"
 
