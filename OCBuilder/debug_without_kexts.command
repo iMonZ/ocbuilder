@@ -134,7 +134,7 @@ opencorepackage() {
 applesupportpkgclone() {
   echo "Cloning AppleSupportPkg SupportPkgs into AUDK..."
   git clone -q https://github.com/acidanthera/EfiPkg EfiPkg -b master --depth=1
-  git clone -q https://github.com/acidanthera/OcSupportPkg OcSupportPkg -b master --depth=1
+  git clone -q https://github.com/acidanthera/OpenCorePkg OpenCorePkg -b master --depth=1
 }
 
 applesupportudkclone() {
