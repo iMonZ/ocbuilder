@@ -63,8 +63,8 @@ installnasm () {
 }
 
 installmtoc () {
-    rm -f mtoc mtoc-mac64.zip
-    curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/mtoc-mac64.zip" || exit 1
+    curl -OL "https://github.com/Pavo-IM/ocbuilder/blob/master/external/mtoc-mac64.zip?raw=true" || exit 1
+    mv mtoc-mac64.zip\?raw=true mtoc-mac64.zip || exit 1
     unzip -q mtoc-mac64.zip mtoc || exit 1
     sudo cp mtoc /usr/local/bin/mtoc || exit 1
     sudo mv mtoc /usr/local/bin/mtoc.NEW || exit 1
