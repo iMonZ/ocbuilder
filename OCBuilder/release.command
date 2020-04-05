@@ -73,7 +73,7 @@ installmtoc () {
     valid_mtoc=false
     if [ "$(which mtoc)" != "" ]; then
       mtoc_path=$(which mtoc)
-      mtoc_hash_user=$(openssl sha256 "${mtoc_path}" | cut -d' ' -f2)
+      mtoc_hash_user=$(shasum -a sha256 "${mtoc_path}" | cut -d' ' -f2)
       if [ "${mtoc_hash}" = "${mtoc_hash_user}" ]; then
         valid_mtoc=true
       elif [ "${IGNORE_MTOC_VERSION}" = "1" ]; then
@@ -92,7 +92,7 @@ installmtoc () {
     fi
 
     if ! $valid_mtoc; then
-      echo "Install prebuilt mtoc automatically?"
+      echo "Installing prebuilt mtoc automatically..."
       pushd /tmp >/dev/null
       rm -f mtoc mtoc-mac64.zip
       curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/mtoc-mac64.zip" || exit 1
@@ -105,7 +105,7 @@ installmtoc () {
       popd >/dev/null
 
       mtoc_path=$(which mtoc)
-      mtoc_hash_user=$(openssl sha256 "${mtoc_path}" | cut -d' ' -f2)
+      mtoc_hash_user=$(shasum -a sha256 "${mtoc_path}" | cut -d' ' -f2)
       if [ "${mtoc_hash}" != "${mtoc_hash_user}" ]; then
         echo "Failed to install a compatible version of mtoc!"
         echo "Expected SHA-256: ${mtoc_hash}"
