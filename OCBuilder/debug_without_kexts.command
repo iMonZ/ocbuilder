@@ -63,28 +63,56 @@ installnasm () {
 }
 
 installmtoc () {
-    CCTOOLS_VERSION=949.0.1
-    CCTOOLS_NAME=cctools-${CCTOOLS_VERSION}
-    CCTOOLS_ARCHIVE=${CCTOOLS_NAME}.tar.gz
-    CCTOOLS_LINK=https://opensource.apple.com/tarballs/cctools/${CCTOOLS_ARCHIVE}
-    MTOC_ARCHIVE="mtoc-${CCTOOLS_VERSION}-macosx.zip"
-    MTOC_LATEST_ARCHIVE="mtoc-mac64.zip"
-    curl -OL "${CCTOOLS_LINK}"                               || abort "Cannot download cctools from ${CCTOOLS_LINK}"
-    tar -xf "${CCTOOLS_ARCHIVE}"                             || abort "Cannot extract cctools ${CCTOOLS_ARCHIVE}"
-    cd "${CCTOOLS_DIR}"                                      || abort "Cannot switch to cctools dir ${CCTOOLS_DIR}"
-    patch -p1 < "${SRC_DIR}/patches/mtoc-permissions.patch"  || abort "Cannot apply mtoc-permissions.patch"
-    make LTO= EFITOOLS=efitools -C libstuff                  || abort "Cannot build libstuff"
-    make -C efitools                                         || abort "Cannot build efitools"
-    strip -x "${CCTOOLS_DIR}/efitools/mtoc.NEW"              || abort "Cannot strip mtoc"
-    mkdir "${DIST_DIR}"                                      || abort "Cannot create dist dir ${DIST_DIR}"
-    cd "${DIST_DIR}"                                         || abort "Cannot switch to dist dir ${DIST_DIR}"
-    cp "${CCTOOLS_DIR}/efitools/mtoc.NEW" "${DIST_DIR}/mtoc" || abort "Cannot copy mtoc to ${DIST_DIR}"
-    zip -qry "${SRC_DIR}/external/${MTOC_ARCHIVE}" mtoc      || abort "Cannot archive mtoc into ${MTOC_ARCHIVE}"
-    cd "${SRC_DIR}/external"                                 || abort "Cannot switch to ${SRC_DIR}/external"
-    ln -s "${MTOC_ARCHIVE}" "${MTOC_LATEST_ARCHIVE}"         || abort "Cannot update ${MTOC_LATEST_ARCHIVE} symlink"
-    openssl sha256 "${DIST_DIR}/mtoc" | cut -d' ' -f2 > "${SRC_DIR}/external/${MTOC_LATEST_HASH}" || abort "Cannot update hash"
-    sudo cp "${DIST_DIR}/mtoc" "/usr/local/bin/mtoc"         || abort "Cannot update /usr/local/bin/mtoc"
-    quit 0
+    mtoc_hash=$(curl -L "https://github.com/acidanthera/ocbuild/raw/master/external/mtoc-mac64.sha256") || exit 1
+
+    if [ "${mtoc_hash}" = "" ]; then
+      echo "Cannot obtain the latest compatible mtoc hash!"
+      exit 1
+    fi
+
+    valid_mtoc=false
+    if [ "$(which mtoc)" != "" ]; then
+      mtoc_path=$(which mtoc)
+      mtoc_hash_user=$(openssl sha256 "${mtoc_path}" | cut -d' ' -f2)
+      if [ "${mtoc_hash}" = "${mtoc_hash_user}" ]; then
+        valid_mtoc=true
+      elif [ "${IGNORE_MTOC_VERSION}" = "1" ]; then
+        echo "Forcing the use of UNKNOWN mtoc version due to IGNORE_MTOC_VERSION=1"
+        valid_mtoc=true
+      elif [ "${mtoc_path}" != "/usr/local/bin/mtoc" ]; then
+        echo "Custom UNKNOWN mtoc is installed to ${mtoc_path}!"
+        echo "Hint: Remove this mtoc or use IGNORE_MTOC_VERSION=1 at your own risk."
+        exit 1
+      else
+        echo "Found incompatible mtoc installed to ${mtoc_path}!"
+        echo "Expected SHA-256: ${mtoc_hash}"
+        echo "Found SHA-256:    ${mtoc_hash_user}"
+        echo "Hint: Reinstall this mtoc or use IGNORE_MTOC_VERSION=1 at your own risk."
+      fi
+    fi
+
+    if ! $valid_mtoc; then
+      echo "Install prebuilt mtoc automatically?"
+      pushd /tmp >/dev/null
+      rm -f mtoc mtoc-mac64.zip
+      curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/mtoc-mac64.zip" || exit 1
+      mtoczip=$(cat mtoc-mac64.zip)
+      rm -rf mtoc-*
+      curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/${mtoczip}" || exit 1
+      unzip -q "${mtoczip}" mtoc || exit 1
+      sudo rm -f /usr/local/bin/mtoc /usr/local/bin/mtoc.NEW || exit 1
+      sudo cp mtoc /usr/local/bin/mtoc || exit 1
+      popd >/dev/null
+
+      mtoc_path=$(which mtoc)
+      mtoc_hash_user=$(openssl sha256 "${mtoc_path}" | cut -d' ' -f2)
+      if [ "${mtoc_hash}" != "${mtoc_hash_user}" ]; then
+        echo "Failed to install a compatible version of mtoc!"
+        echo "Expected SHA-256: ${mtoc_hash}"
+        echo "Found SHA-256:    ${mtoc_hash_user}"
+        exit 1
+      fi
+    fi
 }
 
 
