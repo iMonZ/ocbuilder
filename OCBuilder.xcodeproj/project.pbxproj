@@ -16,7 +16,6 @@
 		CF8B54C622FA2EED005BE626 /* Sparkle.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = CF8B54C422FA2EED005BE626 /* Sparkle.framework.dSYM */; };
 		CF8B54C722FA2EF2005BE626 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF8B54C322FA2EED005BE626 /* Sparkle.framework */; };
 		CF8B54C822FA2EF2005BE626 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CF8B54C322FA2EED005BE626 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CFC3C56F24350CDF009B07B0 /* mtoc-mac64.zip in Resources */ = {isa = PBXBuildFile; fileRef = CFC3C56E24350CDF009B07B0 /* mtoc-mac64.zip */; };
 		CFFC393A22ED390600A4CA25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFC393922ED390600A4CA25 /* AppDelegate.swift */; };
 		CFFC393E22ED390800A4CA25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFFC393D22ED390800A4CA25 /* Assets.xcassets */; };
 		CFFC394122ED390800A4CA25 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFFC393F22ED390800A4CA25 /* Main.storyboard */; };
@@ -45,7 +44,6 @@
 		CF5FCF4123CA60C800542BB5 /* debug_without_kexts.command */ = {isa = PBXFileReference; lastKnownFileType = text; path = debug_without_kexts.command; sourceTree = "<group>"; };
 		CF8B54C322FA2EED005BE626 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		CF8B54C422FA2EED005BE626 /* Sparkle.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = Sparkle.framework.dSYM; sourceTree = "<group>"; };
-		CFC3C56E24350CDF009B07B0 /* mtoc-mac64.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "mtoc-mac64.zip"; sourceTree = "<group>"; };
 		CFFC393622ED390600A4CA25 /* OCBuilder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCBuilder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFFC393922ED390600A4CA25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFFC393D22ED390800A4CA25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,18 +73,9 @@
 			path = Frameworks;
 			sourceTree = "<group>";
 		};
-		CFC3C56D24350C87009B07B0 /* external */ = {
-			isa = PBXGroup;
-			children = (
-				CFC3C56E24350CDF009B07B0 /* mtoc-mac64.zip */,
-			);
-			path = external;
-			sourceTree = "<group>";
-		};
 		CFFC392D22ED390600A4CA25 = {
 			isa = PBXGroup;
 			children = (
-				CFC3C56D24350C87009B07B0 /* external */,
 				CFFC393822ED390600A4CA25 /* OCBuilder */,
 				CFFC393722ED390600A4CA25 /* Products */,
 				CF8B54C222FA2EDC005BE626 /* Frameworks */,
@@ -192,7 +181,6 @@
 				CFFC394122ED390800A4CA25 /* Main.storyboard in Resources */,
 				CF0C453522F0E19F00D5AF7D /* release.command in Resources */,
 				CF8B54C622FA2EED005BE626 /* Sparkle.framework.dSYM in Resources */,
-				CFC3C56F24350CDF009B07B0 /* mtoc-mac64.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,7 +348,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 7.1;
+				MARKETING_VERSION = 7.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = OCBuilder.OCBuilder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -389,7 +377,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 7.1;
+				MARKETING_VERSION = 7.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = OCBuilder.OCBuilder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
