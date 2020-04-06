@@ -73,7 +73,7 @@ installmtoc () {
     valid_mtoc=false
     if [ "$(which mtoc)" != "" ]; then
       mtoc_path=$(which mtoc)
-      mtoc_hash_user=$(shasum -a sha256 "${mtoc_path}" | cut -d' ' -f2)
+      mtoc_hash_user=$(shasum -a 256 "${mtoc_path}" | cut -d' ' -f1)
       if [ "${mtoc_hash}" = "${mtoc_hash_user}" ]; then
         valid_mtoc=true
       elif [ "${IGNORE_MTOC_VERSION}" = "1" ]; then
@@ -105,7 +105,7 @@ installmtoc () {
       popd >/dev/null
 
       mtoc_path=$(which mtoc)
-      mtoc_hash_user=$(shasum -a sha256 "${mtoc_path}" | cut -d' ' -f2)
+      mtoc_hash_user=$(shasum -a 256 "${mtoc_path}" | cut -d' ' -f1)
       if [ "${mtoc_hash}" != "${mtoc_hash_user}" ]; then
         echo "Failed to install a compatible version of mtoc!"
         echo "Expected SHA-256: ${mtoc_hash}"
@@ -142,10 +142,10 @@ opencorepackage() {
     mkdir -p tmp/EFI/OC/Kexts || exit 1
     mkdir -p tmp/EFI/OC/Tools || exit 1
     mkdir -p tmp/EFI/BOOT || exit 1
-    mkdir -p tmp/EFI/Resources/Audio || exit 1
-    mkdir -p tmp/EFI/Resources/Font || exit 1
-    mkdir -p tmp/EFI/Resources/Image || exit 1
-    mkdir -p tmp/EFI/Resources/Label || exit 1
+    mkdir -p tmp/EFI/OC/Resources/Audio || exit 1
+    mkdir -p tmp/EFI/OC/Resources/Font || exit 1
+    mkdir -p tmp/EFI/OC/Resources/Image || exit 1
+    mkdir -p tmp/EFI/OC/Resources/Label || exit 1
     mkdir -p tmp/Docs/AcpiSamples || exit 1
     mkdir -p tmp/Utilities || exit 1
     cp BootKicker.efi tmp/EFI/OC/Tools/ || exit 1
