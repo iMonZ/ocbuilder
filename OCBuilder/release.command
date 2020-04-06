@@ -240,6 +240,7 @@ copyBuildProducts() {
   cp -r "${BUILD_DIR}/MacProMemoryNotificationDisabler/build/Release/MacProMemoryNotificationDisabler.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/SMCAMDProcessor/build/Release/SMCAMDProcessor.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AtherosE2200Ethernet/build/Release/AtherosE2200Ethernet.kext" "${FINAL_DIR}"/EFI/OC/Kexts
+  cp -r "${BUILD_DIR}/IntelMausi/build/Release/IntelMausi.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/RTL8111_driver_for_OS_X/build/Release/RealtekRTL8111.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/NVMeFix/build/Release/NVMeFix.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cd "${BUILD_DIR}"/AppleSupportPkg/Binaries/RELEASE
@@ -336,6 +337,15 @@ cd "${BUILD_DIR}/AtherosE2200Ethernet"
 echo "Compiling the latest commited Release version of AtherosE2200Ethernet..."
 buildrelease
 echo "AtherosE2200Ethernet Release Completed..."
+
+cd "${BUILD_DIR}"
+
+echo "Cloning IntelMausi repo..."
+git clone https://github.com/acidanthera/IntelMausi.git >/dev/null || exit 1
+cd "${BUILD_DIR}/IntelMausi"
+echo "Compiling the latest commited Release version of IntelMausi..."
+buildrelease
+echo "IntelMausi Release Completed..."
 
 cd "${BUILD_DIR}"
 

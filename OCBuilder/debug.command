@@ -236,6 +236,7 @@ copyBuildProducts() {
   cp -r "${BUILD_DIR}/AirportBrcmFixup/build/Debug/AirportBrcmFixup.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/MacProMemoryNotificationDisabler/build/Debug/MacProMemoryNotificationDisabler.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AtherosE2200Ethernet/build/Debug/AtherosE2200Ethernet.kext" "${FINAL_DIR}"/EFI/OC/Kexts
+  cp -r "${BUILD_DIR}/IntelMausi/build/Debug/IntelMausi.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/SMCAMDProcessor/build/Debug/SMCAMDProcessor.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/RTL8111_driver_for_OS_X/build/Debug/RealtekRTL8111.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/NVMeFix/build/Debug/NVMeFix.kext" "${FINAL_DIR}"/EFI/OC/Kexts
@@ -325,6 +326,15 @@ cd "${BUILD_DIR}/AtherosE2200Ethernet"
 echo "Compiling the latest commited Debug version of AtherosE2200Ethernet..."
 builddebug
 echo "AtherosE2200Ethernet Debug Completed..."
+
+cd "${BUILD_DIR}"
+
+echo "Cloning IntelMausi repo..."
+git clone https://github.com/acidanthera/IntelMausi.git >/dev/null || exit 1
+cd "${BUILD_DIR}/IntelMausi"
+echo "Compiling the latest commited Debug version of IntelMausi..."
+builddebug
+echo "IntelMausi Debug Completed..."
 
 cd "${BUILD_DIR}"
 
