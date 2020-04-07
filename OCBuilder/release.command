@@ -115,6 +115,11 @@ installmtoc () {
     fi
 }
 
+buildamdsmc() {
+  xcodebuild -target SMCAMDProcessor -configuration Release  >/dev/null || exit 1
+  xcodebuild -target AMDRyzenCPUPowerManagement -configuration Release >/dev/null || exit 1
+}
+
 buildrelease() {
   xcodebuild -configuration Release  >/dev/null || exit 1
 }
@@ -232,13 +237,14 @@ copyBuildProducts() {
   cd "${FINAL_DIR}/"
   unzip *.zip  >/dev/null || exit 1
   rm -rf *.zip
+  mkdir -p "${FINAL_DIR}"/EFI/AMD_Apps
   cp -r "${BUILD_DIR}/Lilu/build/Release/Lilu.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AppleALC/build/Release/AppleALC.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}"/VirtualSMC/build/Release/*.kext "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/WhateverGreen/build/Release/WhateverGreen.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AirportBrcmFixup/build/Release/AirportBrcmFixup.kext" "${FINAL_DIR}"/EFI/OC/Kexts
-  cp -r "${BUILD_DIR}/MacProMemoryNotificationDisabler/build/Release/MacProMemoryNotificationDisabler.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/SMCAMDProcessor/build/Release/SMCAMDProcessor.kext" "${FINAL_DIR}"/EFI/OC/Kexts
+  cp -r "${BUILD_DIR}/SMCAMDProcessor/build/Release/AMDRyzenCPUPowerManagement.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AtherosE2200Ethernet/build/Release/AtherosE2200Ethernet.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/IntelMausi/build/Release/IntelMausi.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/RTL8111_driver_for_OS_X/build/Release/RealtekRTL8111.kext" "${FINAL_DIR}"/EFI/OC/Kexts
@@ -321,16 +327,6 @@ echo "AirportBrcmFixup Release Completed..."
 
 cd "${BUILD_DIR}"
 
-echo "Cloning MacProMemoryNotificationDisabler repo..."
-git clone https://github.com/IOIIIO/MacProMemoryNotificationDisabler.git >/dev/null || exit 1
-cp -r "${BUILD_DIR}/Lilu/build/Debug/Lilu.kext" "${BUILD_DIR}/MacProMemoryNotificationDisabler"
-cd "${BUILD_DIR}/MacProMemoryNotificationDisabler"
-echo "Compiling the latest commited Release version of MacProMemoryNotificationDisabler..."
-buildrelease
-echo "MacProMemoryNotificationDisabler Release Completed..."
-
-cd "${BUILD_DIR}"
-
 echo "Cloning AtherosE2200Ethernet repo..."
 git clone https://github.com/Mieze/AtherosE2200Ethernet.git >/dev/null || exit 1
 cd "${BUILD_DIR}/AtherosE2200Ethernet"
@@ -364,7 +360,7 @@ cp -r "${BUILD_DIR}/Lilu/build/Debug/Lilu.kext" "${BUILD_DIR}/SMCAMDProcessor"
 cp -r "${BUILD_DIR}/VirtualSMC/build/Debug/VirtualSMC.kext" "${BUILD_DIR}/SMCAMDProcessor"
 cd "${BUILD_DIR}/SMCAMDProcessor"
 echo "Compiling the latest commited Release version of SMCAMDProcessor..."
-buildrelease
+buildamdsmc
 echo "SMCAMDProcessor Release Completed..."
 
 cd "${BUILD_DIR}"

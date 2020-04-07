@@ -115,6 +115,10 @@ installmtoc () {
     fi
 }
 
+buildamdsmc() {
+  xcodebuild -target SMCAMDProcessor -configuration Debug >/dev/null || exit 1
+  xcodebuild -target AMDRyzenCPUPowerManagement -configuration Debug >/dev/null || exit 1
+}
 
 builddebug() {
   xcodebuild -configuration Debug  >/dev/null || exit 1
@@ -234,10 +238,10 @@ copyBuildProducts() {
   cp -r "${BUILD_DIR}"/VirtualSMC/build/Debug/*.kext "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/WhateverGreen/build/Debug/WhateverGreen.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AirportBrcmFixup/build/Debug/AirportBrcmFixup.kext" "${FINAL_DIR}"/EFI/OC/Kexts
-  cp -r "${BUILD_DIR}/MacProMemoryNotificationDisabler/build/Debug/MacProMemoryNotificationDisabler.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AtherosE2200Ethernet/build/Debug/AtherosE2200Ethernet.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/IntelMausi/build/Debug/IntelMausi.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/SMCAMDProcessor/build/Debug/SMCAMDProcessor.kext" "${FINAL_DIR}"/EFI/OC/Kexts
+  cp -r "${BUILD_DIR}/SMCAMDProcessor/build/Debug/AMDRyzenCPUPowerManagement.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/RTL8111_driver_for_OS_X/build/Debug/RealtekRTL8111.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/NVMeFix/build/Debug/NVMeFix.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cd "${BUILD_DIR}"/AppleSupportPkg/Binaries/DEBUG
@@ -310,16 +314,6 @@ echo "AirportBrcmFixup Debug Completed..."
 
 cd "${BUILD_DIR}"
 
-echo "Cloning MacProMemoryNotificationDisabler repo..."
-git clone https://github.com/IOIIIO/MacProMemoryNotificationDisabler.git >/dev/null || exit 1
-cp -r "${BUILD_DIR}/Lilu/build/Debug/Lilu.kext" "${BUILD_DIR}/MacProMemoryNotificationDisabler"
-cd "${BUILD_DIR}/MacProMemoryNotificationDisabler"
-echo "Compiling the latest commited Debug version of MacProMemoryNotificationDisabler..."
-builddebug
-echo "MacProMemoryNotificationDisabler Debug Completed..."
-
-cd "${BUILD_DIR}"
-
 echo "Cloning AtherosE2200Ethernet repo..."
 git clone https://github.com/Mieze/AtherosE2200Ethernet.git >/dev/null || exit 1
 cd "${BUILD_DIR}/AtherosE2200Ethernet"
@@ -353,7 +347,7 @@ cp -r "${BUILD_DIR}/Lilu/build/Debug/Lilu.kext" "${BUILD_DIR}/SMCAMDProcessor"
 cp -r "${BUILD_DIR}/VirtualSMC/build/Debug/VirtualSMC.kext" "${BUILD_DIR}/SMCAMDProcessor"
 cd "${BUILD_DIR}/SMCAMDProcessor"
 echo "Compiling the latest commited Debug version of SMCAMDProcessor..."
-builddebug
+buildamdsmc
 echo "SMCAMDProcessor Debug Completed..."
 
 cd "${BUILD_DIR}"
