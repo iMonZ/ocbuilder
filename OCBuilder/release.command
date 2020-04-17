@@ -238,7 +238,6 @@ copyBuildProducts() {
   cd "${FINAL_DIR}/"
   unzip *.zip  >/dev/null || exit 1
   rm -rf *.zip
-  mkdir -p "${FINAL_DIR}"/EFI/AMD_Apps
   cp -r "${BUILD_DIR}/Lilu/build/Release/Lilu.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AppleALC/build/Release/AppleALC.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}"/VirtualSMC/build/Release/*.kext "${FINAL_DIR}"/EFI/OC/Kexts
@@ -471,10 +470,10 @@ if [ ! -d "${FINAL_DIR}" ]; then
   mkdir -p "${FINAL_DIR}"
   copyBuildProducts
 #  rm -rf "${BUILD_DIR}/"
-  open -a Safari https://khronokernel.github.io/Opencore-Vanilla-Desktop-Guide/
+  open -a Safari https://dortania.github.io/OpenCore-Desktop-Guide/
 else
   rm -rf "${FINAL_DIR}"/*
   copyBuildProducts
 #  rm -rf "${BUILD_DIR}/"
-  open -a Safari https://khronokernel.github.io/Opencore-Vanilla-Desktop-Guide/
+  open -a Safari https://dortania.github.io/OpenCore-Desktop-Guide/
 fi
