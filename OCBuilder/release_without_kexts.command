@@ -134,13 +134,12 @@ opencorepackage() {
     selfdir=$(pwd)
     pushd "$1" || exit 1
     rm -rf tmp || exit 1
-    mkdir -p tmp/EFI || exit 1
-    mkdir -p tmp/EFI/OC || exit 1
+    mkdir -p tmp/EFI/BOOT || exit 1
     mkdir -p tmp/EFI/OC/ACPI || exit 1
+    mkdir -p tmp/EFI/OC/Bootstrap || exit 1
     mkdir -p tmp/EFI/OC/Drivers || exit 1
     mkdir -p tmp/EFI/OC/Kexts || exit 1
     mkdir -p tmp/EFI/OC/Tools || exit 1
-    mkdir -p tmp/EFI/BOOT || exit 1
     mkdir -p tmp/EFI/OC/Resources/Audio || exit 1
     mkdir -p tmp/EFI/OC/Resources/Font || exit 1
     mkdir -p tmp/EFI/OC/Resources/Image || exit 1
@@ -149,6 +148,7 @@ opencorepackage() {
     mkdir -p tmp/Utilities || exit 1
     cp BootKicker.efi tmp/EFI/OC/Tools/ || exit 1
     cp BOOTx64.efi tmp/EFI/BOOT/ || exit 1
+    cp BOOTx64.efi tmp/EFI/OC/Bootstrap/Bootstrap.efi || exit 1
     cp ChipTune.efi tmp/EFI/OC/Tools/ || exit 1
     cp CleanNvram.efi tmp/EFI/OC/Tools/ || exit 1
     cp GopStop.efi tmp/EFI/OC/Tools/ || exit 1
