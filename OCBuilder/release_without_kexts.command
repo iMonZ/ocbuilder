@@ -146,6 +146,11 @@ opencorepackage() {
     mkdir -p tmp/EFI/OC/Resources/Label || exit 1
     mkdir -p tmp/Docs/AcpiSamples || exit 1
     mkdir -p tmp/Utilities || exit 1
+    # Mark binaries to be recognisable by OcBootManagementLib.
+    dd if="${selfdir}/Library/OcBootManagementLib/BootSignature.bin" \
+       of=BOOTx64.efi seek=64 bs=1 count=64 conv=notrunc || exit 1
+    dd if="${selfdir}/Library/OcBootManagementLib/BootSignature.bin" \
+       of=OpenCore.efi seek=64 bs=1 count=64 conv=notrunc || exit 1
     cp BootKicker.efi tmp/EFI/OC/Tools/ || exit 1
     cp BOOTx64.efi tmp/EFI/BOOT/ || exit 1
     cp BOOTx64.efi tmp/EFI/OC/Bootstrap/Bootstrap.efi || exit 1
@@ -204,7 +209,7 @@ applesupportclone() {
 }
 
 opencorepkgclone() {
-    echo "Cloning OpenCorePkg SupportPkgs into AUDK..."
+    echo "Cloning EfiPkg, MacInfoPkg and DuetPkg into AUDK..."
     git clone -q https://github.com/acidanthera/EfiPkg EfiPkg -b master --depth=1
     git clone -q https://github.com/acidanthera/MacInfoPkg MacInfoPkg -b master --depth=1
     git clone -q https://github.com/acidanthera/DuetPkg DuetPkg -b master --depth=1
