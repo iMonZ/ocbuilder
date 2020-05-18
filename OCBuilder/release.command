@@ -176,6 +176,7 @@ opencorepackage() {
   cp ResetSystem.efi tmp/EFI/OC/Tools || exit 1
   cp RtcRw.efi tmp/EFI/OC/Tools || exit 1
   cp NvmExpressDxe.efi tmp/EFI/OC/Drivers/ || exit 1
+  cp AudioDxe.efi tmp/EFI/OC/Drivers/ || exit 1
   cp OpenCanopy.efi tmp/EFI/OC/Drivers/ || exit 1
   cp OpenControl.efi tmp/EFI/OC/Tools/ || exit 1
   cp OpenCore.efi tmp/EFI/OC/ || exit 1
@@ -192,9 +193,10 @@ opencorepackage() {
   cp "${selfdir}/Docs/SampleFull.plist" tmp/Docs/ || exit 1
   cp "${selfdir}/Changelog.md" tmp/Docs/ || exit 1
   cp -r "${selfdir}/Docs/AcpiSamples/" tmp/Docs/AcpiSamples/ || exit 1
-  cp -r "${selfdir}/UDK/DuetPkg/BootLoader/bin" tmp/Utilities/BootInstall || exit 1
+  cp -r "${selfdir}/Utilities/LegacyBoot" tmp/Utilities/ || exit 1
   cp -r "${selfdir}/Utilities/CreateVault" tmp/Utilities/ || exit 1
   cp -r "${selfdir}/Utilities/LogoutHook" tmp/Utilities/ || exit 1
+  cp -r "${selfdir}/Utilities/macrecovery" tmp/Utilities/ || exit 1
   cp -r "${selfdir}/Utilities/disklabel/disklabel" tmp/Utilities/ || exit 1
   cp -r "${selfdir}/Utilities/icnspack/icnspack" tmp/Utilities/ || exit 1
   pushd tmp || exit 1
@@ -202,29 +204,6 @@ opencorepackage() {
   popd || exit 1
   rm -rf tmp || exit 1
   popd || exit 1
-}
-
-applesupportpkgclone() {
-  echo "Cloning AppleSupportPkg SupportPkgs into AUDK..."
-  git clone -q https://github.com/acidanthera/EfiPkg EfiPkg -b master --depth=1
-  git clone -q https://github.com/acidanthera/OpenCorePkg OpenCorePkg -b master --depth=1
-}
-
-applesupportudkclone() {
-  echo "Cloning AUDK Repo into AppleSupportPkg..."
-  git clone -q https://github.com/acidanthera/audk UDK -b master --depth=1
-}
-
-applesupportclone() {
-  echo "Cloning AppleSupportPkg Git repo..."
-  git clone -q https://github.com/acidanthera/AppleSupportPkg.git
-}
-
-opencorepkgclone() {
-  echo "Cloning EfiPkg, MacInfoPkg and DuetPkg into AUDK..."
-  git clone -q https://github.com/acidanthera/EfiPkg EfiPkg -b master --depth=1
-  git clone -q https://github.com/acidanthera/MacInfoPkg MacInfoPkg -b master --depth=1
-  git clone -q https://github.com/acidanthera/DuetPkg DuetPkg -b master --depth=1
 }
 
 opencoreudkclone() {
@@ -259,11 +238,6 @@ copyBuildProducts() {
   cp -r "${BUILD_DIR}/IntelMausi/build/Release/IntelMausi.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/RTL8111_driver_for_OS_X/build/Release/RealtekRTL8111.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/NVMeFix/build/Release/NVMeFix.kext" "${FINAL_DIR}"/EFI/OC/Kexts
-  cd "${BUILD_DIR}"/AppleSupportPkg/Binaries/RELEASE
-  rm -rf "${BUILD_DIR}"/AppleSupportPkg/Binaries/RELEASE/Drivers
-  rm -rf "${BUILD_DIR}"/AppleSupportPkg/Binaries/RELEASE/Tools
-  unzip *.zip  >/dev/null || exit 1
-  cp -r "${BUILD_DIR}"/AppleSupportPkg/Binaries/RELEASE/Drivers/*.efi "${FINAL_DIR}"/EFI/OC/Drivers
   cp -r "${BUILD_DIR}"/OcBinaryData/Resources "${FINAL_DIR}"/EFI/OC/
   cp -r "${BUILD_DIR}"/OcBinaryData/Drivers/*.efi "${FINAL_DIR}"/EFI/OC/Drivers
   echo "All Done!..."
@@ -413,7 +387,6 @@ ln -s ../UDK/Build/OpenCorePkg/RELEASE_XCODE5/X64 RELEASE
 cd ..
 opencoreudkclone
 cd UDK
-opencorepkgclone
 ln -s .. OpenCorePkg
 make -C BaseTools >/dev/null || exit 1
 sleep 1
@@ -444,33 +417,6 @@ fi
 
 cd "${BUILD_DIR}"/OpenCorePkg/Library/OcConfigurationLib || exit 1
 ./CheckSchema.py OcConfigurationLib.c >/dev/null || exit 1
-
-cd "${BUILD_DIR}"
-
-applesupportclone
-unset WORKSPACE
-unset PACKAGES_PATH
-cd "${BUILD_DIR}/AppleSupportPkg"
-mkdir Binaries >/dev/null || exit 1
-cd Binaries >/dev/null || exit 1
-ln -s ../UDK/Build/AppleSupportPkg/RELEASE_XCODE5/X64 RELEASE >/dev/null || exit 1
-cd .. >/dev/null || exit 1
-applesupportudkclone
-cd UDK
-applesupportpkgclone
-ln -s .. AppleSupportPkg >/dev/null || exit 1
-make -C BaseTools >/dev/null || exit 1
-sleep 1
-unset WORKSPACE
-unset EDK_TOOLS_PATH
-export NASM_PREFIX=/usr/local/bin/
-source edksetup.sh --reconfig >/dev/null || exit 1
-sleep 1
-echo "Compiling the latest commited Release version of AppleSupportPkg..."
-build -a X64 -b RELEASE -t XCODE5 -p AppleSupportPkg/AppleSupportPkg.dsc >/dev/null || exit 1
-
-cd .. >/dev/null || exit 1
-applesupportpackage "Binaries/RELEASE" "RELEASE" >/dev/null || exit 1
 
 cd "${BUILD_DIR}"
 
