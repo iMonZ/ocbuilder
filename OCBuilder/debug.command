@@ -115,6 +115,23 @@ installmtoc () {
     fi
 }
 
+updaterepo() {
+  if [ ! -d "$2" ]; then
+    git clone --recursive -q "$1" -b "$3" --depth=1 "$2" || exit 1
+  fi
+  pushd "$2" >/dev/null || exit 1
+  git pull
+  if [ "$2" != "UDK" ] && [ "$(unamer)" != "Windows" ]; then
+    sym=$(find . -not -type d -exec file "{}" ";" | grep CRLF)
+    if [ "${sym}" != "" ]; then
+      echo "Repository $1 named $2 contains CRLF line endings"
+      echo "$sym"
+      exit 1
+    fi
+  fi
+  popd >/dev/null || exit 1
+}
+
 buildamdsmc() {
   xcodebuild -target SMCAMDProcessor -configuration Debug >/dev/null || exit 1
   xcodebuild -target AMDRyzenCPUPowerManagement -configuration Debug >/dev/null || exit 1
@@ -207,7 +224,7 @@ opencorepackage() {
 
 opencoreudkclone() {
   echo "Cloning AUDK Repo into OpenCorePkg..."
-  git clone -q https://github.com/acidanthera/audk UDK -b master --depth=1
+  updaterepo "https://github.com/acidanthera/audk" UDK master || exit 1
 }
 
 opencoreclone() {
