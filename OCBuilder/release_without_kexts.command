@@ -178,7 +178,7 @@ opencorepackage() {
     cp "${selfdir}/Docs/Configuration.pdf" tmp/Docs/ || exit 1
     cp "${selfdir}/Docs/Differences/Differences.pdf" tmp/Docs/ || exit 1
     cp "${selfdir}/Docs/Sample.plist" tmp/Docs/ || exit 1
-    cp "${selfdir}/Docs/SampleFull.plist" tmp/Docs/ || exit 1
+    cp "${selfdir}/Docs/SampleLegacy.plist" tmp/Docs/ || exit 1
     cp "${selfdir}/Changelog.md" tmp/Docs/ || exit 1
     cp -r "${selfdir}/Docs/AcpiSamples/" tmp/Docs/AcpiSamples/ || exit 1
     cp -r "${selfdir}/Utilities/LegacyBoot" tmp/Utilities/ || exit 1
