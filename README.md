@@ -14,6 +14,11 @@ MacOS App to compile Opencore, common drivers and kexts that are used with OpenC
 - [AppleSupportPkg](https://github.com/acidanthera/AppleSupportPkg.git)
 - [OpenCoreShell](https://github.com/acidanthera/OpenCoreShell.git)
 
+## The app can be installed from unofficial [Homebrew](https://brew.sh/) cask tap via one-line command:
+`brew cask install yurikoles/yurikoles/ocbuilder`
+
+This GitHub isn't famous enough for this app to be accepted to officical Homebrew Cask repo. We need your stars :)
+
 ## This app requires the full Xcode app installed in order to compile the source. You also must agree to the User Agreement after installing Xcode app.
 You can install Xcode directly from the following link
 - [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
