@@ -132,13 +132,8 @@ updaterepo() {
   popd >/dev/null || exit 1
 }
 
-buildamdsmc() {
-  xcodebuild -target SMCAMDProcessor -configuration Debug >/dev/null || exit 1
-  xcodebuild -target AMDRyzenCPUPowerManagement -configuration Debug >/dev/null || exit 1
-}
-
 builddebug() {
-  xcodebuild -configuration Debug  >/dev/null || exit 1
+  xcodebuild -arch x86_64 -configuration Debug  >/dev/null || exit 1
 }
 
 applesupportpackage() {
@@ -370,8 +365,6 @@ copyBuildProducts() {
   cp -r "${BUILD_DIR}/AirportBrcmFixup/build/Debug/AirportBrcmFixup.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/AtherosE2200Ethernet/build/Debug/AtherosE2200Ethernet.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/IntelMausi/build/Debug/IntelMausi.kext" "${FINAL_DIR}"/EFI/OC/Kexts
-  cp -r "${BUILD_DIR}/SMCAMDProcessor/build/Debug/SMCAMDProcessor.kext" "${FINAL_DIR}"/EFI/OC/Kexts
-  cp -r "${BUILD_DIR}/SMCAMDProcessor/build/Debug/AMDRyzenCPUPowerManagement.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/RTL8111_driver_for_OS_X/build/Debug/RealtekRTL8111.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}/NVMeFix/build/Debug/NVMeFix.kext" "${FINAL_DIR}"/EFI/OC/Kexts
   cp -r "${BUILD_DIR}"/OcBinaryData/Resources "${FINAL_DIR}"/EFI/OC/
@@ -463,17 +456,6 @@ cd "${BUILD_DIR}/RTL8111_driver_for_OS_X"
 echo "Compiling the latest commited Debug version of RealtekRTL8111..."
 builddebug
 echo "RealtekRTL8111 Debug Completed..."
-
-cd "${BUILD_DIR}"
-
-echo "Cloning SMCAMDProcessor repo..."
-git clone https://github.com/trulyspinach/SMCAMDProcessor.git >/dev/null || exit 1
-cp -r "${BUILD_DIR}/Lilu/build/Debug/Lilu.kext" "${BUILD_DIR}/SMCAMDProcessor"
-cp -r "${BUILD_DIR}/VirtualSMC/build/Debug/VirtualSMC.kext" "${BUILD_DIR}/SMCAMDProcessor"
-cd "${BUILD_DIR}/SMCAMDProcessor"
-echo "Compiling the latest commited Debug version of SMCAMDProcessor..."
-buildamdsmc
-echo "SMCAMDProcessor Debug Completed..."
 
 cd "${BUILD_DIR}"
 
