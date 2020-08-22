@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import ServiceManagement
+
 
 class TaskViewController: NSViewController {
     
@@ -202,7 +204,6 @@ class TaskViewController: NSViewController {
                 self.outputText.string = nextOutput
                 let range = NSRange(location:nextOutput.count,length:0)
                 self.outputText.scrollRangeToVisible(range)
-                self.progressBar.increment(by: 8.3)
             })
             self.outputPipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
         }
@@ -222,7 +223,6 @@ class TaskViewController: NSViewController {
                 self.outputText.string = nextOutput
                 let range = NSRange(location:nextOutput.count,length:0)
                 self.outputText.scrollRangeToVisible(range)
-                self.progressBar.increment(by: 7.6)
             })
             self.outputPipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
         }
@@ -242,7 +242,6 @@ class TaskViewController: NSViewController {
                 self.outputText.string = nextOutput
                 let range = NSRange(location:nextOutput.count,length:0)
                 self.outputText.scrollRangeToVisible(range)
-                self.progressBar.increment(by: 1.9)
             })
             self.outputPipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
         }
@@ -262,7 +261,6 @@ class TaskViewController: NSViewController {
                 self.outputText.string = nextOutput
                 let range = NSRange(location:nextOutput.count,length:0)
                 self.outputText.scrollRangeToVisible(range)
-                self.progressBar.increment(by: 1.9)
             })
             self.outputPipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
         }

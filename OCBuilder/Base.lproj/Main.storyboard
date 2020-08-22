@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17147" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16096"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17147"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -714,22 +714,17 @@
             <objects>
                 <viewController id="NNW-f1-Qqb" customClass="TaskViewController" customModule="OCBuilder" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="eZs-lk-K1D">
-                        <rect key="frame" x="0.0" y="0.0" width="721" height="700"/>
+                        <rect key="frame" x="0.0" y="0.0" width="736" height="700"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="rNC-bp-Sxq">
-                                <rect key="frame" x="183" y="580" width="355" height="100"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="opencorebanner" id="6e5-CI-2kV"/>
-                            </imageView>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="hoF-jf-h8v">
-                                <rect key="frame" x="20" y="562" width="681" height="5"/>
+                                <rect key="frame" x="20" y="629" width="696" height="5"/>
                             </box>
                             <popUpButton verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="NAi-jy-jeW">
-                                <rect key="frame" x="123" y="525" width="77" height="25"/>
+                                <rect key="frame" x="123" y="592" width="78" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="LR1-Jk-Kke" id="9Bl-zr-Rws">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="uwD-US-wjo">
                                         <items>
                                             <menuItem title="Item 1" state="on" id="LR1-Jk-Kke"/>
@@ -740,7 +735,7 @@
                                 </popUpButtonCell>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jtV-1f-CML">
-                                <rect key="frame" x="18" y="531" width="99" height="16"/>
+                                <rect key="frame" x="18" y="598" width="99" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Select Version:" id="ez2-yb-fZ5">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -748,10 +743,10 @@
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="342-5x-uq7">
-                                <rect key="frame" x="20" y="513" width="681" height="5"/>
+                                <rect key="frame" x="20" y="580" width="696" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4eK-aF-fvS" userLabel="Completed Location Label">
-                                <rect key="frame" x="18" y="484" width="685" height="16"/>
+                                <rect key="frame" x="18" y="551" width="700" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Location to where you would like to save to Completed Builds folder." id="YRs-Bn-4uq">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -759,24 +754,24 @@
                                 </textFieldCell>
                             </textField>
                             <pathControl verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GNb-Zw-qeh" userLabel="Completed Location">
-                                <rect key="frame" x="17" y="446" width="96" height="25"/>
+                                <rect key="frame" x="17" y="513" width="96" height="25"/>
                                 <pathCell key="cell" selectable="YES" editable="YES" alignment="left" pathStyle="popUp" id="YOf-RR-xwR">
                                     <font key="font" metaFont="system"/>
                                 </pathCell>
                             </pathControl>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7MA-Tb-gM7" userLabel="Output View">
-                                <rect key="frame" x="20" y="214" width="681" height="221"/>
+                                <rect key="frame" x="20" y="214" width="696" height="288"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="jii-9O-Q8S">
-                                    <rect key="frame" x="0.0" y="0.0" width="681" height="221"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="696" height="288"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" selectable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="efZ-vh-5Y3">
-                                            <rect key="frame" x="0.0" y="0.0" width="681" height="221"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="696" height="288"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="681" height="221"/>
-                                            <size key="maxSize" width="681" height="10000000"/>
+                                            <size key="minSize" width="696" height="288"/>
+                                            <size key="maxSize" width="696" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
                                     </subviews>
@@ -789,15 +784,15 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="jEJ-53-Jvb">
-                                    <rect key="frame" x="665" y="0.0" width="16" height="221"/>
+                                    <rect key="frame" x="680" y="0.0" width="16" height="288"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <progressIndicator wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="qmd-Ur-GHE">
-                                <rect key="frame" x="20" y="180" width="681" height="20"/>
+                            <progressIndicator wantsLayer="YES" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="qmd-Ur-GHE">
+                                <rect key="frame" x="20" y="180" width="696" height="20"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yDW-do-0df">
-                                <rect key="frame" x="20" y="123" width="681" height="44"/>
+                                <rect key="frame" x="20" y="123" width="696" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="JnO-g3-QVN"/>
                                 </constraints>
@@ -810,7 +805,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="URX-YK-IZV">
-                                <rect key="frame" x="20" y="66" width="681" height="44"/>
+                                <rect key="frame" x="20" y="66" width="696" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="Xmi-rA-MHX"/>
                                 </constraints>
@@ -823,7 +818,7 @@
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="bcj-ag-Yh7">
-                                <rect key="frame" x="18" y="20" width="685" height="32"/>
+                                <rect key="frame" x="18" y="20" width="700" height="32"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" id="l6y-cN-AVf">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">OpenCore Builder will download Drivers and Support Package direct from the Github Repo and save to a folder in a location of your choice. You will need to update the EFI yourself</string>
@@ -832,12 +827,17 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HDL-eS-nGL">
-                                <rect key="frame" x="215" y="530" width="94" height="18"/>
+                                <rect key="frame" x="216" y="597" width="98" height="18"/>
                                 <buttonCell key="cell" type="check" title="With Kexts?" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="zaT-86-saK">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="rNC-bp-Sxq">
+                                <rect key="frame" x="208" y="647" width="320" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="opencorebanner" id="6e5-CI-2kV"/>
+                            </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="4eK-aF-fvS" secondAttribute="trailing" constant="20" id="31G-Dv-i7u"/>

@@ -51,13 +51,13 @@ installnasm () {
     curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/${nasmzip}" || exit 1
     unzip -q "${nasmzip}" nasm*/nasm nasm*/ndisasm || exit 1
     if [ -d /usr/local/bin ]; then
-        sudo mv nasm*/nasm /usr/local/bin/ || exit 1
-        sudo mv nasm*/ndisasm /usr/local/bin/ || exit 1
+        sudo -S mv nasm*/nasm /usr/local/bin/ || exit 1
+        sudo -S mv nasm*/ndisasm /usr/local/bin/ || exit 1
         rm -rf "${nasmzip}" nasm-*
     else
-        sudo mkdir -p /usr/local/bin || exit 1
-        sudo mv nasm*/nasm /usr/local/bin/ || exit 1
-        sudo mv nasm*/ndisasm /usr/local/bin/ || exit 1
+        sudo -S mkdir -p /usr/local/bin || exit 1
+        sudo -S mv nasm*/nasm /usr/local/bin/ || exit 1
+        sudo -S mv nasm*/ndisasm /usr/local/bin/ || exit 1
         rm -rf "${nasmzip}" nasm-*
     fi
 }
@@ -100,8 +100,8 @@ installmtoc () {
       rm -rf mtoc-*
       curl -OL "https://github.com/acidanthera/ocbuild/raw/master/external/${mtoczip}" || exit 1
       unzip -q "${mtoczip}" mtoc || exit 1
-      sudo rm -f /usr/local/bin/mtoc /usr/local/bin/mtoc.NEW || exit 1
-      sudo cp mtoc /usr/local/bin/mtoc || exit 1
+      sudo -S rm -f /usr/local/bin/mtoc /usr/local/bin/mtoc.NEW || exit 1
+      sudo -S cp mtoc /usr/local/bin/mtoc || exit 1
       popd >/dev/null
 
       mtoc_path=$(which mtoc)
